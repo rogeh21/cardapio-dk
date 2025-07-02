@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cardápio Interativo - D&K Pastelaria</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #1c1c1c;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #f7c948;
+    }
+    .item {
+      margin-bottom: 10px;
+    }
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2a2a2a;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+    input[type="number"], input[type="text"] {
+      width: 60px;
+      padding: 5px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+    }
+    input[type="text"] {
+      width: 100%;
+      margin-top: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      background: #25d366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1ebe57;
+    }
+    .categoria {
+      margin-top: 30px;
+    }
+    .categoria h2 {
+      color: #f7c948;
+      border-bottom: 1px solid #444;
+      padding-bottom: 5px;
+    }
+    .dados {
+      margin-top: 30px;
+    }
+    .dados label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .dados input {
+      background: #2a2a2a;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🍴 D&K Pastelaria - Monte seu Pedido</h1>
+
+<form id="pedidoForm">
+
+  <div class="categoria">
+    <h2>Pastéis</h2>
+    <div class="item"><label>Pastel de Carne <input type="number" name="Pastel de Carne" min="0" value="0" /></label></div>
+    <div class="item"><label>Pastel de Queijo com orégano <input type="number" name="Pastel de Queijo com orégano" min="0" value="0" /></label></div>
+    <div class="item"><label>Pastel de Frango com Catupiry <input type="number" name="Pastel de Frango com Catupiry" min="0" value="0" /></label></div>
+    <div class="item"><label>Pastel de Camarão <input type="number" name="Pastel de Camarão" min="0" value="0" /></label></div>
+    <div class="item"><label>Pastel de Frango com Queijo <input type="number" name="Pastel de Frango com Queijo" min="0" value="0" /></label></div>
+    <div class="item"><label>Pastel de Carne e Queijo <input type="number" name="Pastel de Carne e Queijo" min="0" value="0" /></label></div>
+    <div class="item"><label>Combo Pastel + Refri <input type="number" name="Combo Pastel + Refri" min="0" value="0" /></label></div>
+  </div>
+
+  <div class="categoria">
+    <h2>🍰 Doces</h2>
+    <div class="item"><label>Pastel de Chocolate com Morango <input type="number" name="Pastel de Chocolate com Morango" min="0" value="0" /></label></div>
+    <div class="item"><label>Pastel Romeu e Julieta <input type="number" name="Pastel Romeu e Julieta" min="0" value="0" /></label></div>
+    <div class="item"><label>Pastel de Doce de Leite <input type="number" name="Pastel de Doce de Leite" min="0" value="0" /></label></div>
+    <div class="item"><label>Coxinha de Morango <input type="number" name="Coxinha de Morango" min="0" value="0" /></label></div>
+    <div class="item"><label>Copo da Felicidade <input type="number" name="Copo da Felicidade" min="0" value="0" /></label></div>
+  </div>
+
+  <div class="categoria">
+    <h2>Bebidas</h2>
+    <div class="item"><label>Coca-Cola <input type="number" name="Coca-Cola" min="0" value="0" /></label></div>
+    <div class="item"><label>Fanta Laranja <input type="number" name="Fanta Laranja" min="0" value="0" /></label></div>
+    <div class="item"><label>Mineiro <input type="number" name="Mineiro" min="0" value="0" /></label></div>
+    <div class="item"><label>Água <input type="number" name="Água" min="0" value="0" /></label></div>
+  </div>
+
+  <div class="dados">
+    <h2>📝 Informações para entrega</h2>
+    <label>Nome:
+      <input type="text" id="nome" required placeholder="Digite seu nome" />
+    </label>
+    <label>Endereço:
+      <input type="text" id="endereco" required placeholder="Rua, número, bairro..." />
+    </label>
+    <label>Forma de Pagamento:
+      <input type="text" id="pagamento" required placeholder="Dinheiro, Pix, Cartão..." />
+    </label>
+  </div>
+
+  <button type="button" onclick="enviarPedido()">📲 Enviar pedido no WhatsApp</button>
+</form>
+
+<script>
+  function enviarPedido() {
+    const form = document.getElementById('pedidoForm');
+    const inputs = form.querySelectorAll('input[type=number]');
+    const nome = document.getElementById('nome').value.trim();
+    const endereco = document.getElementById('endereco').value.trim();
+    const pagamento = document.getElementById('pagamento').value.trim();
+
+    if (!nome || !endereco || !pagamento) {
+      alert('Por favor, preencha todas as informações de entrega.');
+      return;
+    }
+
+    let mensagem = 'Olá, quero fazer um pedido:%0A';
+
+    inputs.forEach(input => {
+      const quantidade = parseInt(input.value);
+      if (quantidade > 0) {
+        mensagem += `- ${quantidade} ${input.name}%0A`;
+      }
+    });
+
+    mensagem += `%0A*Nome:* ${nome}%0A*Endereço:* ${endereco}%0A*Pagamento:* ${pagamento}`;
+
+    const telefone = '5564996643576';
+    const url = `https://wa.me/${telefone}?text=${mensagem}`;
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>
